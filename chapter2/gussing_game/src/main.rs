@@ -13,26 +13,31 @@ fn main() {
 
     println!("The secret number is: {}", secret_number);
 
-    println!("Please input your guess.");
+    loop {
+        println!("Please input your guess.");
 
-    let mut guess = String::new();
+        let mut guess = String::new();
 
-    // std::io::stdin()
-    io::stdin()
-        // &guessでなく&mut guessなので参照を可変とする
-        .read_line(&mut guess)
-        // io::Resultはexpectを持っておりプログラムをクラッシュできる
-        .expect("Failed to read line");
+        // std::io::stdin()
+        io::stdin()
+            // &guessでなく&mut guessなので参照を可変とする
+            .read_line(&mut guess)
+            // io::Resultはexpectを持っておりプログラムをクラッシュできる
+            .expect("Failed to read line");
 
-    // 同じ名前で変数を宣言することでシャドーイングできる
-    // parse()のために変数の型を明示的に指定する必要がある
-    let guess: u32 = guess.trim().parse().expect("Please type a number!");
+        // 同じ名前で変数を宣言することでシャドーイングできる
+        // parse()のために変数の型を明示的に指定する必要がある
+        let guess: u32 = guess.trim().parse().expect("Please type a number!");
 
-    println!("You guessed: {}", guess);
+        println!("You guessed: {}", guess);
 
-    match guess.cmp(&secret_number) {
-        Ordering::Less => println!("Too small!"),
-        Ordering::Greater => println!("Too big!"),
-        Ordering::Equal => println!("You win!"),
+        match guess.cmp(&secret_number) {
+            Ordering::Less => println!("Too small!"),
+            Ordering::Greater => println!("Too big!"),
+            Ordering::Equal => {
+                println!("You win!");
+                break;
+            }
+        }
     }
 }
